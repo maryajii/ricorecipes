@@ -199,11 +199,13 @@ router.post(
         next(err);
       } else
       res.send(
-        "This recipe has been added to the database." + req.body.name + "Go back to view it in recipe list"
+        "This recipe has been added to the database!!! " + req.body.name + " Go back to view it in the recipe list"
         );
     });
   }
 );
+
+
 
 router.get("/:id", redirectLogin, async function (req, res, next) {
   const recipeId = req.params.id; //get recipe id from URL

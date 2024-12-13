@@ -93,7 +93,7 @@ router.post(
         db.query(sqlquery, values, function (error, results) {
           if (error) {
             console.error(error); 
-            return res.status(500).send("Error saving user to database."); 
+            return res.status(500).send("Error saving user to database. If an ongoing error change your email, username as they may already be in use."); 
           }
 
           //successful registration
@@ -126,12 +126,12 @@ router.post("/loggedin", function (req, res, next) {
   db.query(sqlquery, [username], function (error, results) {
     if (error) {
       console.error(error); 
-      return res.status(500).send("Error querying the database.");
+      return res.status(500).send("Error logging in user. Please try again.");
     }
 
     //check if user exists
     if (results.length === 0) {
-      return res.status(401).send("Login failed."); // User not found
+      return res.status(401).send("Login failed. Are you sure you have an account? If so, go back and try again."); // User not found
     }
 
     //get the hashed password from the database
@@ -150,7 +150,7 @@ router.post("/loggedin", function (req, res, next) {
 
         return res.render("search.ejs");
       } else {
-        return res.status(401).send("Login failed."); //wrong password
+        return res.status(401).send("Login failed. Are you sure you have an account? If so, go back and try again."); //wrong password
       }
     });
   });
