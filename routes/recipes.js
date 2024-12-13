@@ -22,7 +22,7 @@ router.get("/search", redirectLogin, function (req, res, next) {
 });
 
 router.get(
-  "/recipes/search_recipe",
+  "recipes/search_recipe",
   redirectLogin,
   [check("search_recipe").optional().isLength({ max: 50 })],
   function (req, res, next) {
