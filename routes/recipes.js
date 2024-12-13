@@ -198,8 +198,8 @@ router.post(
       if (err) {
         next(err);
       } else
-        res.render(
-          'list.ejs'
+      res.send(
+        "This recipe has been added to the database." + req.body.name + "Go back to view it in recipe list"
         );
     });
   }
