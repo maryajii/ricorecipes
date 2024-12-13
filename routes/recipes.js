@@ -198,7 +198,7 @@ router.post(
       if (err) {
         next(err);
       } else
-        res.redirect(
+        res.render(
           'list.ejs'
         );
     });
