@@ -20,7 +20,7 @@ router.get("/search", redirectLogin, function (req, res, next) {
   res.render("search.ejs");
 });
 
-router.get("/search_recipe",
+router.get("/recipes/search_recipe",
   redirectLogin,
   [check("search_recipe").optional().isLength({ max: 50 })],
   function (req, res, next) {
@@ -63,7 +63,7 @@ router.get("/search_recipe",
 );
 
 router.get(
-  "/search_ingredients",
+  "/recipes/search_ingredients",
   redirectLogin,
   [check("search_ingredients").optional().isLength({ max: 255 })],
   function (req, res, next) {
