@@ -24,6 +24,9 @@ CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   `hashed_password` varchar(255) NOT NULL,
+  `login_attempts` INT DEFAULT 0 NOT NULL,  -- Tracks the number of login attempts
+  `is_locked` BOOLEAN DEFAULT FALSE NOT NULL,  -- Indicates whether the account is locked
+  `lock_until` DATETIME NULL,  -- Specifies when the lock will be lifted
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   UNIQUE KEY `username_UNIQUE` (`username`)
@@ -44,6 +47,6 @@ CREATE TABLE `recipes` (
   CONSTRAINT `recipes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
 CREATE USER 'rico_recipes_app'@'localhost' IDENTIFIED BY 'mary123';
 GRANT ALL PRIVILEGES ON rico_recipes.* TO 'rico_recipes_app'@'localhost';
+
