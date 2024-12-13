@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search <%=shopData.shopName%></title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <a href="/recipes/search">Search for Recipes</a>
+      <a href="/recipes/list">Recipe List</a>
+      <a href="/recipes/addrecipe">Add a New Recipe</a>
+      <a href="/users/logout">Logout</a>
+    </nav>
+
+    <div class="searchbody">
+      <div class="searchwrapper" id="searchform">
+        <h1>Search <%=shopData.shopName%></h1>
+
+        <h5>Find what you are cooking tonight.</h5>
+        <div class="searchform">
+          <form action="search_recipe" method="GET">
+            <label class="searchname" for="recipe name">Recipe Name:</label>
+            <div class="search-input-box">
+              <input
+                id="recipe_name"
+                type="text"
+                name="search_recipe"
+                placeholder="Enter recipe name"
+              />
+              <input type="submit" value="Search Recipe" />
+            </div>
+          </form>
+        </div>
+
+        <h5>Not quite sure? Here's some extra guidance</h5>
+        <p>Search for recipes by ingredients</p>
+
+        <div class="searchform">
+          <form action="search_ingredients" method="GET">
+            <label class="searchname" for="ingredients">Ingredients:</label>
+            <h4>seperate ingredients by commmas (,)</h4>
+
+            <div class="search-input-box">
+              <input
+                id="ingredients"
+                type="text"
+                name="search_ingredients"
+                placeholder="Enter ingredients"
+              />
+              <input type="submit" value="Search Ingredients" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

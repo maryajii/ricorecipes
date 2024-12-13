@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Add recipe to <%=shopData.shopName%></title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <a href="/recipes/search">Search for Recipes</a>
+      <a href="/recipes/list">Recipe List</a>
+      <a href="/recipes/addrecipe">Add a New Recipe</a>
+      <a href="/users/logout">Logout</a>
+    </nav>
+
+    <div class="addbody">
+      <div class="addwrapper" id="addform">
+        <h1><%=shopData.shopName%>: Add a recipe</h1>
+
+        <div class="searchform">
+          <form method="POST" action="recipeadded">
+            <p>
+              Recipe name*:
+              <input id="add_name" type="text" name="name" value="" required />
+            </p>
+            <p>
+              Description*:
+              <input
+                id="add_description"
+                type="text"
+                name="description"
+                value=""
+                required
+              />
+            </p>
+            <p>
+              Cuisine:
+              <input id="add_cuisine" type="text" name="cuisine" value="" />
+            </p>
+            <p>
+              Ingredients*:
+              <input
+                id="add_ingredients"
+                type="text"
+                name="ingredients"
+                value=""
+                required
+              />
+            </p>
+            <p>
+              Instructions*:
+              <input
+                id="add_instructions"
+                type="text"
+                name="instructions"
+                value=""
+                required
+              />
+            </p>
+            <div class="add-input-box">
+              <input type="submit" value="Add Recipe" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

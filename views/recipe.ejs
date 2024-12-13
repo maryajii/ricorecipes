@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <title><%= recipe.name %></title>
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="/recipes/search">Search for Recipes</a>
+      <a href="/recipes/list">Recipe List</a>
+      <a href="/recipes/addrecipe">Add a New Recipe</a>
+      <a href="/users/logout">Logout</a>
+    </nav>
+
+    <div class="recipebody">
+      <div class="recipewrapper" id="recipe">
+        <h1><%= recipe.name %></h1>
+        <p><strong>Description:</strong> <%= recipe.description %></p>
+        <p><strong>Cuisine:</strong> <%= recipe.cuisine_type %></p>
+
+        <h2>Ingredients:</h2>
+        <ul>
+          <% recipe.ingredients.split("\n").forEach(ingredient => { %>
+          <li><%= ingredient %></li>
+          <% }); %>
+        </ul>
+
+        <h2>Instructions:</h2>
+        <p><%= recipe.instructions %></p>
+
+        <br />
+
+        <br />
+
+        <h1>Nutrition Facts:</h1>
+        <% if (nutrition) { %>
+
+        <ul>
+          <li>Calories: <%= nutrition.calories %></li>
+          <li>
+            Protein: <%= nutrition.totalNutrients.PROCNT.quantity %> <%=
+            nutrition.totalNutrients.PROCNT.unit %>
+          </li>
+          <li>
+            Fat: <%= nutrition.totalNutrients.FAT.quantity %> <%=
+            nutrition.totalNutrients.FAT.unit %>
+          </li>
+          <li>
+            Carbohydrates: <%= nutrition.totalNutrients.CHOCDF.quantity %> <%=
+            nutrition.totalNutrients.CHOCDF.unit %>
+          </li>
+        </ul>
+
+        <% } else { %>
+        <p>Nutrition information is not available.</p>
+        <% } %>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+
+  <head>
+    <title>Welcome to <%=shopData.shopName%></title>
+    <link rel="stylesheet"  type="text/css" href="/main.css" />
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <a href="/recipes/search">Search for Recipes</a>
+      <a href="/recipes/list">Recipe List</a>
+      <a href="/recipes/addrecipe">Add a New Recipe</a>
+      <a href="/users/logout">Logout</a>
+   </nav>
+   
+    <div class="recipebody" id="list">
+      <div class="recipewrapper" id="recipe">
+
+    <h1><%=shopData.shopName%></h1>
+    <h2>List of all available recipes</h2>
+    <ul>
+      <% availableRecipes.forEach(function(recipe) { %>
+        <li>
+          <%= recipe.name %>, <%=recipe.description%> - Added by: <%= recipe.username %> <a href="/recipes/<%= recipe.id %>">View Recipe</a>
+
+
+        </li>
+      <% }) %>
+    </ul>
+    </div>
+    </body>
+    
+</html>
+
+   
+

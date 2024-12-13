@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login to <%=shopData.shopName%></title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+
+  <body>
+    <!-- <h3 class="logologin">Login to <%=shopData.shopName%></h3> -->
+
+    <div class="loginbody">
+      <div class="wrapper" id="loginform">
+        <h3 class="logologin">Login to <%=shopData.shopName%></h3>
+        <form method="POST" action="/users/loggedin">
+          <label for="username">Username:</label>
+          <div class="input-box">
+            <input
+              id="username"
+              type="text"
+              name="username"
+              placeholder="Username"
+              required
+            />
+          </div>
+          <br />
+          <label for="password">Password:</label>
+          <div class="input-box">
+            <input
+              id="password"
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+          </div>
+          <br />
+          <button class="button" type="submit" value="Login">Login</button>
+        </form>
+        <p>
+          Don't have an account?<a href="/users/register"> Register</a> with us
+          today
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
