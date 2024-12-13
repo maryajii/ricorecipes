@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 
-require("dotenv").config();
 const appId = process.env.EDAMAM_APP_ID;
 const appKey = process.env.EDAMAM_APP_KEY;
 
@@ -21,8 +20,7 @@ router.get("/search", redirectLogin, function (req, res, next) {
   res.render("search.ejs");
 });
 
-router.get(
-  "/search_recipe",
+router.get("/search_recipe",
   redirectLogin,
   [check("search_recipe").optional().isLength({ max: 50 })],
   function (req, res, next) {
@@ -209,6 +207,8 @@ router.post(
 
 router.get("/:id", redirectLogin, async function (req, res, next) {
   const recipeId = req.params.id; //get recipe id from URL
+  const appId = process.env.EDAMAM_APP_ID;
+  const appKey = process.env.EDAMAM_APP_KEY;
 
   //find the recipe with the id
   let sqlquery = "SELECT * FROM recipes WHERE id = ?";

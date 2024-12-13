@@ -6,6 +6,8 @@ var session = require("express-session");
 var validator = require("express-validator");
 
 require("dotenv").config();
+const appId = process.env.EDAMAM_APP_ID;
+const appKey = process.env.EDAMAM_APP_KEY;
 
 //Import mysql module
 var mysql = require("mysql2");
