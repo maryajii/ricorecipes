@@ -43,3 +43,7 @@ CREATE TABLE `recipes` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `recipes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE USER 'rico_recipes_app'@'localhost' IDENTIFIED BY 'mary123';
+GRANT ALL PRIVILEGES ON rico_recipes.* TO 'rico_recipes_app'@'localhost';
