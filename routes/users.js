@@ -120,7 +120,7 @@ router.post("/loggedin", function (req, res, next) {
   const username = req.body.username;
   const plainPassword = req.body.password;
 
-  // Query to find the user by username
+  //query to find the user by username
   let sqlquery = `SELECT * FROM users WHERE username = ?`;
 
   db.query(sqlquery, [username], function (error, results) {
@@ -129,14 +129,14 @@ router.post("/loggedin", function (req, res, next) {
       return res.status(500).send("Error logging in user. Please try again.");
     }
 
-    // Check if user exists
+    //check if user exists
     if (results.length === 0) {
       return res.status(401).send("Login failed. Invalid username or password.");
     }
 
     const user = results[0];
 
-    // Check if the account is locked
+    //check if the account is locked
     const now = new Date();
     if (user.is_locked && user.lock_until && now < new Date(user.lock_until)) {
       return res.status(403).send("Your account is temporarily locked. Please try again later.");
@@ -149,7 +149,7 @@ router.post("/loggedin", function (req, res, next) {
       }
 
       if (result === true) {
-        // Reset login attempts and unlock the account on successful login
+        //reset login attempts and unlock the account on successful login
         let resetQuery = `UPDATE users SET login_attempts = 0, is_locked = FALSE, lock_until = NULL WHERE id = ?`;
         db.query(resetQuery, [user.id], function (updateError) {
           if (updateError) {
@@ -157,16 +157,16 @@ router.post("/loggedin", function (req, res, next) {
             return res.status(500).send("Error resetting login attempts.");
           }
 
-          // Save user session
+          //save user session
           req.session.userId = user.id;
           return res.render("search.ejs");
         });
       } else {
-        // Increment login attempts
+        // increment login attempts
         const newAttempts = user.login_attempts + 1;
 
-        if (newAttempts >= 5) {
-          // Lock the account
+        if (newAttempts >= 3) {
+          //lock the account
           const lockUntil = new Date();
           lockUntil.setMinutes(lockUntil.getMinutes() + 5); // Lock for 5 minutes
 
