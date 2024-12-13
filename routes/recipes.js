@@ -11,7 +11,7 @@ const { check, validationResult } = require("express-validator");
 function redirectLogin(req, res, next) {
   if (!req.session.userId) {
     //session stores user id when logged in
-    res.redirect("/login"); //go to login if not authenticated
+    res.redirect("/usr/777/users/login"); //go to login if not authenticated
   } else {
     next();
   }
@@ -198,8 +198,8 @@ router.post(
       if (err) {
         next(err);
       } else
-        res.send(
-          ' This recipe has been added to the database. + req.body.name + /list'
+        res.redirect(
+          'list.ejs'
         );
     });
   }
