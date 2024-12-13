@@ -117,40 +117,80 @@ router.post("/loggedin", function (req, res, next) {
   req.body.username = req.sanitize(req.body.username);
   req.body.password = req.sanitize(req.body.password);
 
-  const username = req.body.username; 
-  const plainPassword = req.body.password; 
+  const username = req.body.username;
+  const plainPassword = req.body.password;
 
-  //query to find the user by username
+  // Query to find the user by username
   let sqlquery = `SELECT * FROM users WHERE username = ?`;
 
   db.query(sqlquery, [username], function (error, results) {
     if (error) {
-      console.error(error); 
+      console.error(error);
       return res.status(500).send("Error logging in user. Please try again.");
     }
 
-    //check if user exists
+    // Check if user exists
     if (results.length === 0) {
-      return res.status(401).send("Login failed. Are you sure you have an account? If so, go back and try again."); // User not found
+      return res.status(401).send("Login failed. Invalid username or password.");
     }
 
-    //get the hashed password from the database
-    const hashedPassword = results[0].hashed_password;
+    const user = results[0];
 
-    bcrypt.compare(req.body.password, hashedPassword, function (err, result) {
+    // Check if the account is locked
+    const now = new Date();
+    if (user.is_locked && user.lock_until && now < new Date(user.lock_until)) {
+      return res.status(403).send("Your account is temporarily locked. Please try again later.");
+    }
+
+    bcrypt.compare(plainPassword, user.hashed_password, function (err, result) {
       if (err) {
-        // TODO: Handle error
         console.error(err);
-        return res.status(500).send("Error logging in user. Please try again."); 
-      } else if (result == true) {
-        // TODO: Send message
+        return res.status(500).send("Error logging in user. Please try again.");
+      }
 
-        //save user session when login is successful
-        req.session.userId = results[0].id;
+      if (result === true) {
+        // Reset login attempts and unlock the account on successful login
+        let resetQuery = `UPDATE users SET login_attempts = 0, is_locked = FALSE, lock_until = NULL WHERE id = ?`;
+        db.query(resetQuery, [user.id], function (updateError) {
+          if (updateError) {
+            console.error(updateError);
+            return res.status(500).send("Error resetting login attempts.");
+          }
 
-        return res.render("search.ejs");
+          // Save user session
+          req.session.userId = user.id;
+          return res.render("search.ejs");
+        });
       } else {
-        return res.status(401).send("Login failed. Are you sure you have an account? If so, go back and try again."); //wrong password
+        // Increment login attempts
+        const newAttempts = user.login_attempts + 1;
+
+        if (newAttempts >= 5) {
+          // Lock the account
+          const lockUntil = new Date();
+          lockUntil.setMinutes(lockUntil.getMinutes() + 15); // Lock for 15 minutes
+
+          let lockQuery = `UPDATE users SET login_attempts = ?, is_locked = TRUE, lock_until = ? WHERE id = ?`;
+          db.query(lockQuery, [newAttempts, lockUntil, user.id], function (lockError) {
+            if (lockError) {
+              console.error(lockError);
+              return res.status(500).send("Error locking the account.");
+            }
+
+            return res.status(403).send("Too many failed attempts. Your account is locked for 15 minutes.");
+          });
+        } else {
+          // Update attempts
+          let attemptQuery = `UPDATE users SET login_attempts = ? WHERE id = ?`;
+          db.query(attemptQuery, [newAttempts, user.id], function (attemptError) {
+            if (attemptError) {
+              console.error(attemptError);
+              return res.status(500).send("Error updating login attempts.");
+            }
+
+            return res.status(401).send("Login failed. Invalid username or password.");
+          });
+        }
       }
     });
   });
