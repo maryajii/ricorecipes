@@ -11,7 +11,7 @@ const { check, validationResult } = require("express-validator");
 function redirectLogin(req, res, next) {
   if (!req.session.userId) {
     //session stores user id when logged in
-    res.redirect("users/login"); //go to login if not authenticated
+    res.redirect("/login"); //go to login if not authenticated
   } else {
     next();
   }
