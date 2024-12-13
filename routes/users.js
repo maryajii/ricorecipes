@@ -168,7 +168,7 @@ router.post("/loggedin", function (req, res, next) {
         if (newAttempts >= 5) {
           // Lock the account
           const lockUntil = new Date();
-          lockUntil.setMinutes(lockUntil.getMinutes() + 15); // Lock for 15 minutes
+          lockUntil.setMinutes(lockUntil.getMinutes() + 5); // Lock for 5 minutes
 
           let lockQuery = `UPDATE users SET login_attempts = ?, is_locked = TRUE, lock_until = ? WHERE id = ?`;
           db.query(lockQuery, [newAttempts, lockUntil, user.id], function (lockError) {
@@ -177,7 +177,7 @@ router.post("/loggedin", function (req, res, next) {
               return res.status(500).send("Error locking the account.");
             }
 
-            return res.status(403).send("Too many failed attempts. Your account is now locked. Please try again in 15 minutes.");
+            return res.status(403).send("Too many failed attempts. Your account is now locked. Please go back and try again in 5 minutes.");
           });
         } else {
           // Update attempts
@@ -188,7 +188,7 @@ router.post("/loggedin", function (req, res, next) {
               return res.status(500).send("Error updating login attempts.");
             }
 
-            return res.status(401).send("Login failed. Invalid username or password.");
+            return res.status(401).send("Login failed. Invalid username or password. Please go back and try again");
           });
         }
       }
