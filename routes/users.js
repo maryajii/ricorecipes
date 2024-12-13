@@ -177,7 +177,7 @@ router.post("/loggedin", function (req, res, next) {
               return res.status(500).send("Error locking the account.");
             }
 
-            return res.status(403).send("Too many failed attempts. Your account is locked for 15 minutes.");
+            return res.status(403).send("Too many failed attempts. Your account is now locked. Please try again in 15 minutes.");
           });
         } else {
           // Update attempts
